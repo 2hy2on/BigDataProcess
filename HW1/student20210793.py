@@ -29,17 +29,31 @@ for i in range(2,sheet.max_row + 1):
     result_list.append(row_list)
 
 result_list.sort(key=lambda x: x[6], reverse=True)
-a_cutline = int(sheet.max_row * 0.3)
 
+##만점자 처리
+def check_perfect_score():
+    perfect_num = 0
+    for n in range(len(result_list)):
+        if result_list[n][6] == 100:
+            perfect_num += 1
+    return perfect_num
+
+perfect_cnt = check_perfect_score()
+a_cutline = int(sheet.max_row * 0.3)
 aa_cutline = int(a_cutline * 0.5)
 b_cutline = int(sheet.max_row * 0.7)
 bb_cutline = a_cutline+ int((b_cutline- a_cutline) * 0.5)
 
-# #print(sheet.max_row * 0.7)
-# # print(a_cutline)
-# print(bb_cutline)
-# #print(b_cutline)
-# # print(sheet.max_row)
+##만점자 처리
+if perfect_cnt > aa_cutline and perfect_cnt <= a_cutline:
+    aa_cutline = 0
+elif perfect_cnt > a_cutline and perfect_cnt <= bb_cutline:
+    aa_cutline = 0
+    a_cutline = 0
+elif perfect_cnt > bb_cutline and perfect_cnt <= b_cutline:
+    aa_cutline = 0
+    a_cutline = 0
+    bb_cutline = 0
 
 ##A+주기
 for i in range(aa_cutline):
@@ -55,19 +69,21 @@ for i in range(bb_cutline, b_cutline):
     result_list[i].append('B')
 #print(result_list[b_cutline][6])
 
-c_count = 1
-for i in range(b_cutline+1, len(result_list)):
+c_count = 0
+for i in range(b_cutline, len(result_list)):
     if result_list[i][6] < 40:
        result_list[i].append('F')
     else:
         c_count += 1
-        # print(c_count)
         result_list[i].append('C')
 
-cc_count = int(c_count * 0.5)
-
-for i in range(b_cutline, b_cutline+cc_count+1):
-    result_list[i].append('C+')
+cc_count = c_count // 2
+print(b_cutline+cc_count+1)
+if perfect_cnt <= b_cutline+cc_count:
+    for i in range(b_cutline, b_cutline+cc_count):
+        print(i)
+        result_list[i].remove('C')
+        result_list[i].append('C+')
 
 
 result_list.sort(key=lambda x: x[0]) ##원상복귀
