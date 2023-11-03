@@ -35,11 +35,11 @@ aa_cutline = int(a_cutline * 0.5)
 b_cutline = int(sheet.max_row * 0.7)
 bb_cutline = a_cutline+ int((b_cutline- a_cutline) * 0.5)
 
-#print(sheet.max_row * 0.7)
-# print(a_cutline)
-print(bb_cutline)
-#print(b_cutline)
-# print(sheet.max_row)
+# #print(sheet.max_row * 0.7)
+# # print(a_cutline)
+# print(bb_cutline)
+# #print(b_cutline)
+# # print(sheet.max_row)
 
 ##A+주기
 for i in range(aa_cutline):
@@ -61,7 +61,7 @@ for i in range(b_cutline+1, len(result_list)):
        result_list[i].append('F')
     else:
         c_count += 1
-        print(c_count)
+        # print(c_count)
         result_list[i].append('C')
 
 cc_count = int(c_count * 0.5)
