@@ -20,7 +20,7 @@ for i in range(2,sheet.max_row + 1):
         elif j == 5: ##homework이면
             total += float(val) * 0.34
         elif j == 6: ##attendence
-            total += float(val) * 0.01
+            total += float(val)
         row_list.append(val)
         
     # print(sum) ##이거 h에 넣어야함
@@ -38,6 +38,25 @@ def check_perfect_score():
             perfect_num += 1
     return perfect_num
 
+def check_same_score(old_boundary, new_boundary):
+    targetValue = result_list[old_boundary][6]
+    print(targetValue, "------")
+    if targetValue == 100:
+        return (old_boundary, new_boundary)
+    targetCount = -1
+    for i, row in enumerate(result_list):
+        if row[6] == targetValue:
+            targetCount += 1
+    print(targetCount)
+    print("old_boundary__", old_boundary)
+    print("new_boundary__", new_boundary)
+    if old_boundary < targetCount or new_boundary < targetCount:
+        return (old_boundary, new_boundary)
+
+    old_boundary -= targetCount
+    new_boundary -= targetCount    
+    return (old_boundary, new_boundary)
+    
 perfect_cnt = check_perfect_score()
 a_cutline = int(sheet.max_row * 0.3)
 aa_cutline = int(a_cutline * 0.5)
@@ -54,6 +73,10 @@ elif perfect_cnt > bb_cutline and perfect_cnt <= b_cutline:
     aa_cutline = 0
     a_cutline = 0
     bb_cutline = 0
+
+aa_cutline, a_cutline = check_same_score(aa_cutline, a_cutline)
+a_cutline, bb_cutline = check_same_score(a_cutline, bb_cutline)
+bb_cutline, b_cutline = check_same_score(bb_cutline, b_cutline)
 
 ##A+주기
 for i in range(aa_cutline):
@@ -78,10 +101,9 @@ for i in range(b_cutline, len(result_list)):
         result_list[i].append('C')
 
 cc_count = c_count // 2
-print(b_cutline+cc_count+1)
+# print(b_cutline+cc_count+1)
 if perfect_cnt <= b_cutline+cc_count:
     for i in range(b_cutline, b_cutline+cc_count):
-        print(i)
         result_list[i].remove('C')
         result_list[i].append('C+')
 
