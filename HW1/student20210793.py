@@ -40,7 +40,6 @@ def check_perfect_score():
 
 def check_same_score(old_boundary, new_boundary):
     targetValue = result_list[old_boundary][6]
-    print(targetValue, "------")
     if targetValue == 100:
         return (old_boundary, new_boundary)
     targetCount = -1
@@ -78,25 +77,33 @@ aa_cutline, a_cutline = check_same_score(aa_cutline, a_cutline)
 a_cutline, bb_cutline = check_same_score(a_cutline, bb_cutline)
 bb_cutline, b_cutline = check_same_score(bb_cutline, b_cutline)
 
+#F주기
+for i in range(len(result_list)):
+    if result_list[i][6] < 40:
+       result_list[i].append('F')
+
 ##A+주기
 for i in range(aa_cutline):
-    result_list[i].append('A+')
+    if result_list[i][6] >= 40:
+        result_list[i].append('A+')
 ##A주기
 for i in range(aa_cutline, a_cutline):
-    result_list[i].append('A')
+    if result_list[i][6] >= 40:
+        result_list[i].append('A')
 ##B+주기
 for i in range(a_cutline, bb_cutline):
-    result_list[i].append('B+')
+    if result_list[i][6] >= 40:
+        result_list[i].append('B+')
 ##B주기
 for i in range(bb_cutline, b_cutline):
-    result_list[i].append('B')
+    if result_list[i][6] >= 40:
+        result_list[i].append('B')
 #print(result_list[b_cutline][6])
 
 c_count = 0
+
 for i in range(b_cutline, len(result_list)):
-    if result_list[i][6] < 40:
-       result_list[i].append('F')
-    else:
+    if result_list[i][6] >= 40:
         c_count += 1
         result_list[i].append('C')
 
