@@ -26,6 +26,8 @@ while True:
         if i == 1:
             s+=" "
     fw.write(s+"\n")
+fr.close()    
+fw.close()
 
     
 
