@@ -6,8 +6,6 @@ outputFile = sys.argv[2]
 fr = open(inputFile, "rt")
 fw = open(outputFile, "wt")
 
-print(inputFile)
-
 genre = dict()
 while True:
     row = fr.readline()
@@ -24,7 +22,7 @@ while True:
 
 fr.close()
 for key, value in genre.items():
-    fw.write(f'{key}: {value}\n')
+    fw.write(f'{key} {value}\n')
 fw.close()
 
 
