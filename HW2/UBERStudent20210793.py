@@ -22,24 +22,35 @@ while True:
     for i in range(len(rowSplit)):
         rowSplit[i] = rowSplit[i].replace("\n", "")
         s.append(rowSplit[i])
-        if i == 0 or i == 2:
-            s.append(",")
-        if i == 1:
-            s.append(" ")
     result.append(s)
 
-result.sort(key=lambda x: [x[0],x[2]])
 fr.close()    
 
+resultDic = {}
 for r in result:
-    for i in range(len(r)):
-        if i == 2:
-            fw.write(week[int(r[i])])
-        else:
-            fw.write(r[i])
-    fw.write("\n")
-fw.close()
-
     
+    key = r[0]+","+r[1]
+    vehicle = int(r[2])
+    trip = int(r[3])
+    
+    if key in resultDic:
+        val = resultDic[key].split(',')
+        resultDic[key] = str(vehicle+ int(val[0]))+","+ str(trip+ int(val[1]))
+    
+    else:
+        resultDic[key] = str(vehicle)+","+str(trip)
 
 
+result_list = []
+for key, value in resultDic.items():
+    val1 = key.split(",")
+    val2 = value.split(',')
+    result_list.append([val1[0], val1[1], val2[0], val2[1]])
+
+result_list.sort(key=lambda x: [x[0], x[1]])
+
+for r in result_list:
+    s = r[0] + "," + week[int(r[1])] + " " + r[2] + "," + r[3] + "\n"
+    fw.write(s)
+
+fw.close()
