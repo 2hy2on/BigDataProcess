@@ -9,48 +9,32 @@ fr = open(inputFile, "rt")
 fw = open(outputFile, "wt")
 result = []
 week = ["MON", "TUE", "WEB", "THU", "FRI", "SAT", "SUN"]
+resultDic = {}
+
 while True:
     row = fr.readline()
     if not row: break
-    rowSplit = row.split(",")
+    rowSplit = row.strip().split(",")
     date = rowSplit[1]
     dateSplit = date.split("/")
     week_num = datetime(int(dateSplit[2]),int(dateSplit[0]), int(dateSplit[1])).weekday()
-    rowSplit[1] = str(week_num)
+    rowSplit[1] = week_num
 
-    s = []
-    for i in range(len(rowSplit)):
-        rowSplit[i] = rowSplit[i].replace("\n", "")
-        s.append(rowSplit[i])
-    result.append(s)
-
-fr.close()    
-
-resultDic = {}
-for r in result:
-    
-    key = r[0]+","+r[1]
-    vehicle = int(r[2])
-    trip = int(r[3])
+    key = rowSplit[0] +","+week[week_num]
+    vehicle = int(rowSplit[2])
+    trip = int(rowSplit[3])
     
     if key in resultDic:
-        val = resultDic[key].split(',')
-        resultDic[key] = str(vehicle+ int(val[0]))+","+ str(trip+ int(val[1]))
+        val = resultDic[key]
+        val[0] = val[0] + vehicle
+        val[1] = val[1] + trip
     
     else:
-        resultDic[key] = str(vehicle)+","+str(trip)
+        resultDic[key] = [vehicle, trip]
 
-
-result_list = []
 for key, value in resultDic.items():
-    val1 = key.split(",")
-    val2 = value.split(',')
-    result_list.append([val1[0], val1[1], val2[0], val2[1]])
+    keyVal = key.split(",")
+    fw.write(keyVal[0] + ","+keyVal[1]+" "+ str(value[0])+","+str(value[1])+"\n")
 
-result_list.sort(key=lambda x: [x[0], x[1]])
-
-for r in result_list:
-    s = r[0] + "," + week[int(r[1])] + " " + r[2] + "," + r[3] + "\n"
-    fw.write(s)
-
+fr.close()    
 fw.close()
