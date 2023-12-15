@@ -105,4 +105,4 @@ for k in range(1, 21):
     testDataPredict = []
     for i in range(testData.shape[0]):
         testDataPredict.append((classify(testData[i], trainData, np.array(trainDataLabel, dtype=int), k)))
-    print(np.sum(np.array(testDataLabel) != np.array(testDataPredict)) )
+    print(int(np.sum(np.array(testDataLabel) != np.array(testDataPredict)) / testData.shape[0] * 100) )
